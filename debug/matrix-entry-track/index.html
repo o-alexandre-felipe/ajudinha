@@ -1,0 +1,124 @@
+<html>
+<body>
+<form id="matrixFile" name="matrixFile" enctype="multipart/form-data" method="post">
+  <fieldset>
+    <h2>Post processing of matrix data</h2>
+    <div>
+     D1 <input type='file' id='file1' accept="text/plain" value="fft-cols-v1.txt"/>
+     D1 entries per row <input type='number' id='N1' value="16" max="1024" min="2" />
+   </div>
+   <div>
+     D2 <input type='file' id='file2' accept="text/plain" value="rows-v1.txt"/>
+     D2 entries per row <input type='number' id='N2' value="16" max="1024" min="2" />
+   </div>
+   <div align="right">
+     <input type='button' id='btnLoad' value='Load' onclick='loadFiles();'>
+   </div>
+  </fieldset>
+</form>
+
+<script type="text/javascript">
+<!--
+  function highlightClass(e){
+    var elCls = e.target.className;
+    elList = document.getElementsByClassName(elCls);
+    if(e.type=='mouseover'){
+      disp = document.getElementById('display');
+      disp.innerHTML = e.target.id + ' = "' + window.atob(elCls) + '", occurs ' + elList.length + ' times';
+    }
+    for(var i = 0; i < elList.length; ++i){
+      if(e.type == 'mouseover')
+        elList[i].bgColor = 'red';
+      else if(e.type == 'mouseout')
+        elList[i].bgColor = '';
+    }
+  }
+  window.highlightedElements = '';
+  function loadFiles() {
+    var input, file, fr;
+
+    if (typeof window.FileReader !== 'function') {
+      alert("The file API isn't supported on this browser yet.");
+      return;
+    }
+
+    input = document.getElementById('file1');
+    if (!input) {
+      alert("Um, couldn't find the file1 element.");
+    }
+    else if (!input.files) {
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+      alert("Please select a file before clicking 'Load'");
+    }
+    else {
+      file = input.files[0];
+      fr = new FileReader();
+      fr.onload = function receivedCols(e) {
+        lines = e.target.result;
+        l = lines.split('\n');
+        N1 = document.getElementById('N1').value;
+        tblCols = document.getElementById('tbl1');
+        while(tblCols.firstChild) tblCols.removeChild(tblCols.firstChild);
+        for(var i = 0; (N1*(i+1)-1) < l.length; i = i + 1){
+          tr = tblCols.insertRow(tblCols.rows.length);
+          for(var j = 0; j < N1; j = j + 1){
+            td = tr.insertCell(tr.cells.length);
+            activate(td, l[N1*i+j], 'D1_{'+i+','+j+'}');
+          }
+        }
+      }
+      fr.readAsText(file);
+    }
+
+    input = document.getElementById('file2');
+    if (!input) {
+      alert("Um, couldn't find the file2 element.");
+    }
+    else if (!input.files) {
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+      alert("Please select a file before clicking 'Load'");
+    }
+    else {
+      file = input.files[0];
+      fr = new FileReader();
+      fr.onload = function (e) {
+        lines = e.target.result;
+        l = lines.split('\n');
+        N2 = document.getElementById('N2').value;
+        tblRows = document.getElementById('tbl2');
+        while(tblRows.firstChild) tblRows.removeChild(tblRows.firstChild);
+        for(var i = 0; (N2*(i+1)-1) < l.length; i = i + 1){
+          tr = tblRows.insertRow(tblRows.rows.length);
+          for(var j = 0; j < N2; j = j + 1){
+            td = tr.insertCell(tr.cells.length);
+            activate(td, l[N2*i+j], 'D2_{' + i + ','+j + '}');
+          }
+        }
+      }
+      fr.readAsText(file);
+    }
+    function activate(el, cls, _id){
+      cls = window.btoa(cls.trim().replace(/\s+/g, ' '));
+      td.id = _id;
+      td.className = cls;
+      // td.border = '1px';
+      td.addEventListener('mouseover', highlightClass);
+      td.addEventListener('mouseout',  highlightClass);
+      td.width = "10px"
+      td.height = "10px";
+    }
+  }
+-->
+</script>
+<div id="display"> </div>
+<table><tr>
+  <td> <div style="height:500px;overflow:scroll;width:100%;"> <h5>D1</h5> <table id="tbl1" bgcolor="green"></table> </div> </td>
+  <td> <div style="height:500px;overflow:scroll;width:100%;"> <h5>D2</h5> <table id="tbl2" bgcolor="gray" ></table> </div> </td>
+</tr></table>
+
+</body>
+</html>
