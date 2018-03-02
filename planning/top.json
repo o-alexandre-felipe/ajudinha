@@ -1,0 +1,103 @@
+{
+ "topModule": "bcd10k",
+ "worklib": {
+  "fftsr": {
+   "cells": 2700000,
+   "area": 200000,
+   "color": "#f0f080"
+  },
+  "fftlr": {
+   "cells": 330000,
+   "area": 220000,
+   "color": "#f0f080"
+  },
+  "ifftsr": {
+   "cells": 2700000,
+   "area": 200000,
+   "color": "#ffc080"
+  },
+  "ifftlr": {
+   "cells": 330000,
+   "area": 220000,
+   "color": "#ffc080"
+  },
+  "matmemp": {
+   "cells": 1316400,
+   "area": 473540,
+   "color": "#8080ff"
+  },
+  "freq-filter-bank": {
+   "cells": 80000,
+   "area": 50000,
+   "color": "#ff8080",
+   "subBlocks": [{
+    "module": "filter-mem",
+    "count": 1
+   }]
+  },
+  "filter-mem": {
+   "cells": 2000000,
+   "area": 1000000,
+   "color": "#d0d0d0"
+  },
+  "overlap-transpose": {
+   "color": "#ffc0c0",
+   "subBlocks": [{
+    "module": "matmemp",
+    "count": 3
+   }]
+  },
+  "direct-transform": {
+   "color": "#c0c0ff",
+   "subBlocks": [{
+    "module": "fftsr",
+    "count": 4
+   },{
+    "module": "overlap-transpose",
+    "count": 1
+   },{
+    "module": "fftlr",
+    "count": 8
+   }]
+  },
+  "matfifop": {
+   "color": "#00ff00",
+   "subBlocks": [{
+    "module": "matmemp",
+    "count": 2
+   }]
+  },
+  "inverse-transform": {
+   "color": "#c0ffc0",
+   "subBlocks": [{
+     "module": "ifftlr",
+     "count": 8
+    },
+    {
+     "module": "matfifop",
+     "count": 1
+    },
+    {
+     "module": "ifftsr",
+     "count": 4
+    }
+   ]
+  },
+  "bcd10k": {
+   "subBlocks": [{
+     "module": "direct-transform",
+     "count": 1
+    },
+    {
+     "module": "freq-filter-bank",
+     "count": 1
+    },
+    {
+     "module": "inverse-transform",
+     "count": 1
+    }
+   ]
+  }
+ }
+}
+
