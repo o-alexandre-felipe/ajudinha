@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  <title>Design Partition</title>
+  <style>
+    .rotated-up {
+      -ms-transform: rotate(-90deg);
+      -moz-transform: rotate(-90deg);
+      -webkit-transform: rotate(-90deg);
+      transform: rotate(-90deg);
+      filter: none; /* Mandatory for IE9 to show the vertical text correctly */ 
+    
+      -ms-transform-origin: center center 0;
+      -moz-transform-origin: center center 0;
+      -webkit-transform-origin: center center  0;
+      transform-origin: center center 0;
+    
+   }
+  </style>
+  <script type="text/javascript" src="schematic.js" ></script>
+  <script>
+    function readDesign(url)
+    {
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("GET", url, true);
+      // https://stackoverflow.com/questions/22356025/force-cache-control-no-cache-in-chrome-via-xmlhttprequest-on-f5-reload
+      xhttp.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
+      xhttp.setRequestHeader('cache-control', 'max-age=0');
+      xhttp.setRequestHeader('expires', '0');
+      xhttp.setRequestHeader('expires', 'Tue, 01 Jan 1980 1:00:00 GMT');
+      xhttp.setRequestHeader('pragma', 'no-cache');
+      xhttp.onreadystatechange = function ()
+      {
+        if(xhttp.readyState === 4)
+        {
+          if(xhttp.status === 200 || xhttp.status == 0)
+          {
+             var jsonText = xhttp.responseText;
+             var jsonObj  = JSON.parse(jsonText);
+             initWorkArea(jsonObj);
+          }
+        }
+      }
+      xhttp.send(null);
+    }
+    function initWorkArea(jsonObj){
+      var schematicEl = document.getElementById('schematic-area');
+      var legendEl = document.getElementById('legend');
+      window.schematicObj = new Schematic(jsonObj, schematicEl, legendEl);
+      return;
+      initLegend(jsonObj.worklib); 
+      if(schematicEl.firstChild != null) schematicEl.removeChild(schematicEl.firstChild)
+      insertDesign(schematicEl, jsonObj.topModule, jsonObj.worklib);
+    } 
+    window.addEventListener('load', function () {
+      url = window.location.href.split('?')
+      if(url.length == 2){
+        readDesign(url[1]);
+      }
+    });
+  </script>
+</head>
+<body>
+
+
+<div style="display:inline-block; border: 2px black; width: 200; height:600px; overflow: hidden" >
+  <table id="legend"> </table>
+</div>
+<div id="schematic-area" style="display:inline-block; position:relative; width: 800px; height: 600px; overflow: hidden; "></div>
+</body>
+</html>
