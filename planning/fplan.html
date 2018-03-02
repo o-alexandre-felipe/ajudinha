@@ -55,7 +55,7 @@
     window.addEventListener('load', function () {
       url = window.location.href.split('?')
       if(url.length == 2){
-        readDesign(url[1]);
+        readDesign(url[url.length-1]);
       }
     });
   </script>
