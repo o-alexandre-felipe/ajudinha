@@ -53,9 +53,9 @@
       insertDesign(schematicEl, jsonObj.topModule, jsonObj.worklib);
     } 
     window.addEventListener('load', function () {
-      url = window.location.href.split('?')
+      url = window.location.href.split('fplan.html?')
       if(url.length == 2){
-        readDesign(url[url.length-1]);
+        readDesign(url[1]);
       }
     });
   </script>
