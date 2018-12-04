@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>bcd10k demonstrations</title>
+<style>
+  #action {
+    left:0px; 
+    width:200px; 
+    overflow:scroll;
+    top:0px;
+    bottom: 0px;
+    position: fixed;
+    background-color:#d0d0d0;
+  }
+  #display {
+    left:200px;
+    right: 0px;
+    overflow: hidden;
+    top: 0px; 
+    bottom: 0px;
+    position: fixed;
+    background-color: #f0f0ff;
+  }
+
+  div.anim-btn {
+    left:0px;
+    right:0px;
+    overflow : hidden;
+    border-radius: 5px;
+    background-color: #20c020;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+  }
+  div.control {
+    left:0px;
+    right:0px;
+    overflow : hidden;
+    display: block;
+    border-radius: 5px;
+    background-color: #c00000;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+  }
+
+
+
+</style>
+<script src="record.js" > </script>
+<script src="anim.js" > </script>
+</head>
+<body>
+<div id="action">
+<div class="control" id="record">Start Recording</div>
+<div class="control" id="download">Download</div>
+</div>
+<div id="display"></div>
+</body>
+</html>
